@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Application to demonstrate the use of the Simple Lottie Player">
+    <meta name="author" content="Carlos A.">
+    <title>Simple Lottie Files Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie_svg.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/simplelottieplayer.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        #dropzone {
+            width: 50%;
+            height: 50%;
+            min-height: 300px;
+            min-width: 300px;
+            border-style: dashed !important;
+            border-width: 5px !important;
+            position: relative;
+        }
+        #dropzone input[type=file] {
+            opacity: 0;
+            position: absolute; top:0; left:0; bottom: 0; right: 0; width: 100%; height: 100%
+        }
+        #simple-lottie-player {
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body class="text-center text-bg-dark h-100 d-flex flex-column">
+    <div class="header w-100">
+        <div class="mx-3 d-flex px-3 pt-3">
+        <h1 class="mt-auto">Simple LottieFile Player</h1>
+        <div class="ms-auto my-auto">
+            <a class="btn btn-outline-light" href="https://github.com/dealfonso/simplelottieplayer" target="_blank"><i class="bi bi-github pe-2"></i>view in github</a>
+        </div>
+        </div>
+    </div>
+    <div class="m-auto w-100 d-flex flex-column p-5">
+        <div class="m-auto">
+            <div class="text-center w-100">
+                <p>an application to preview <a href="https://lottiefiles.com" target="_blank">LottieFiles</a> animations</p>
+                <div id="dropzone" class="rounded-5 border border-white m-auto w-100 d-flex">
+                    <div class="m-auto">
+                        <h2>drop your animation</h2>
+                        <h4>or press here to browse</h4>
+                    </div>
+                    <input type="file" >
+                </div>
+                <div id="simple-lottie-player" class="rounded-2 border border-white m-auto"></div>
+                <a href="#" id="download-button" class="download-btn btn btn-primary d-none">download</a>
+            </div>
+        </div>
+    </div>
+    <simplelottie class="rounded-2 border border-white m-auto" overlay-buttons fullsize-button="true" autoplay loop max-height="300" url="https://assets6.lottiefiles.com/packages/lf20_fj8rlma5.json"></simplelottie>
+
+    <footer class="text-white-50">
+        <p>&copy; Carlos A. - <a href="https://github.com/dealfonso" target="_blank">https://github.com/dealfonso</a></p>
+    </footer>
+</body>
+<script>
+    let lottiePlayer = null;
+
+    const State = {
+        empty: 0,
+        animation: 1
+    }
+
+    let state = State.empty;
+
+    function updateState(newState) {
+        state = newState;
+        const dropzone = document.getElementById("dropzone");
+        const lottiePlayer = document.getElementById("simple-lottie-player");
+        switch (state) {
+            case State.animation:
+                dropzone.style.setProperty("display", "none", "important");
+                lottiePlayer.style.setProperty("display", "block", "important");
+                break;
+            default:
+                dropzone.style.setProperty("display", "block", "important");
+                lottiePlayer.style.setProperty("display", "none", "important");
+                break;
+        }
+    }
+
+    if (document.addEventListener !== undefined) {   
+        function processFile(file) {
+            if (file.type === undefined) {
+                lottiePlayer.load(JSON.parse(JSON.stringify(file))).catch((e) => {
+                    throw(`invalid animation ${e}`);
+                }).then(() => {
+                    updateState(State.animation)
+                });
+            } else {
+                if (file.type != "application/json") {
+                    throw("invalid content-type");
+                }
+                let fileReader = new FileReader();
+                fileReader.onload = async (event) => {
+                    // Retrieve the animation
+                    let loadedAnimation = null;
+                    try {
+                        loadedAnimation = JSON.parse(event.target.result);
+                    } catch (e) {
+                        throw ("invalid json file")
+                    }
+                    lottiePlayer.load(JSON.parse(JSON.stringify(loadedAnimation))).catch((e) => {
+                        throw(`invalid animation ${e}`);
+                    }).then(() => {
+                        updateState(State.animation)
+                    })
+                }
+                fileReader.readAsText(file);
+            }
+        }
+
+        lottiePlayer = new SimpleLottiePlayer("#simple-lottie-player", {
+            overlayButtons: true,
+            fullsizeButton: true,
+            maxHeight: 300,
+        });
+        document.addEventListener("dragover", event => event.preventDefault());
+        document.addEventListener("drop", event => {
+            event.preventDefault();
+            if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+                processFile(event.dataTransfer.files[0]);
+            }
+        });
+        document.addEventListener("paste", (event) => {
+            let pasteContent = (event.clipboardData || window.clipboardData);
+            if ((pasteContent.files) && (pasteContent.files.length > 0)) {
+                processFile(pasteContent.files[0]);
+            } else {
+                let pasteText = pasteContent.getData("text");
+                if (pasteText != "") {
+                    let url = null;
+                    try {
+                        url = new URL(pasteText);
+                        fetch(url).then((content) => {
+                            content.json().then((json) => processFile(json));
+                        })
+                    } catch (e) {
+                        console.error(e);
+                        return;
+                    }
+                }
+            }
+        });
+        const fileSelector = document.querySelector('#dropzone input[type=file]');
+        fileSelector.addEventListener('change', (event) => {
+            const fileList = event.target.files;
+            processFile(fileList[0]);
+        });
+        updateState(State.empty);
+    }
+</script>
+</html>
