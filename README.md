@@ -13,6 +13,8 @@ Please check the working demos:
 - LottieFiles trimmer: [link](https://dealfonso.github.io/simplelottieplayer/lottietrimmer.html)
 - Very Simple Lottie Player demo: [link](https://dealfonso.github.io/simplelottieplayer/verysimplelottieplayer.html)
 
+![](img/lottietrimmer.gif)
+
 This package also includes a class that adjusts any Lottie animation to remove the padding and margins, so that the rendered animation only contains the minimal windows to show the animated objects.
 
 ## Simple Lottie Player
@@ -157,8 +159,6 @@ But I found a problem with some of the animations, that is that many of them lea
 What I wanted was to somehow __trim__ the Lottie animations (i.e. removing the margins), and this could be done using [Adobe AfterEffects](https://www.adobe.com/es/products/aftereffects.html). But I do not want to pay a full license just to _trim_ a few Lottie animations. And this is why I created a mechanism to _trim_ LottieFiles animations.
 
 Checkout the demo of the [LottieFiles Trimming application](https://dealfonso.github.io/simplelottieplayer/lottietrimmer.html)
-
-![](img/lottietrimmer.gif)
 
 ### Using the trimmer
 First you need to include the trimmer (which is included in the _SimpleLottiePlayer_ bundle)
