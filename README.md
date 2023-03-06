@@ -1,4 +1,4 @@
-# SimpleLottiePlayer - A simple LottieFile web player
+# SimpleLottiePlayer - A simple LottieFile web player (and LottieFile padding remover)
 
 I do like a lot [_LottieFiles_](https://lottiefiles.com) animations. And I find that they are very nice to add some interactivity to web and mobile applications.
 
@@ -12,6 +12,8 @@ Please check the working demos:
 - Simple Lottie Player demo: [link](https://dealfonso.github.io/simplelottieplayer/)
 - LottieFiles trimmer: [link](https://dealfonso.github.io/simplelottieplayer/lottietrimmer.html)
 - Very Simple Lottie Player demo: [link](https://dealfonso.github.io/simplelottieplayer/verysimplelottieplayer.html)
+
+This package also includes a class that adjusts any Lottie animation to remove the padding and margins, so that the rendered animation only contains the minimal windows to show the animated objects.
 
 ## Simple Lottie Player
 
