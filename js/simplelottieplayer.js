@@ -173,6 +173,9 @@ class SimpleLottiePlayer {
             return node;
         }
 
+        // The container must have relative position so that the overlays appear appropriately
+        this._container.style.display = "block";
+
         // Remove the event handler, if set
         if (this._buttonEventHandler !== null) {
             this._container.removeEventListener("click", this._buttonEventHandler);
@@ -219,7 +222,6 @@ class SimpleLottiePlayer {
 
             // The container must have relative position so that the overlays appear appropriately
             this._container.style.position = "relative";
-            this._container.style.display = "block";
 
             let player = this;
             fullScreenBtn.addEventListener('click', function(event) {

@@ -288,6 +288,7 @@ class SimpleLottiePlayer {
             }
             return node;
         }
+        this._container.style.display = "block";
         if (this._buttonEventHandler !== null) {
             this._container.removeEventListener("click", this._buttonEventHandler);
             this._buttonEventHandler = null;
@@ -337,7 +338,6 @@ class SimpleLottiePlayer {
             this._container.prepend(fullScreenBtn);
             this._container.prepend(exitFullScreenBtn);
             this._container.style.position = "relative";
-            this._container.style.display = "block";
             let player = this;
             fullScreenBtn.addEventListener("click", function(event) {
                 player.resize(player._animationData["w"], player._animationData["h"], true);
