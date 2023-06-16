@@ -180,21 +180,6 @@ class SimpleLottiePlayer {
         }
 
         if (this.options.fullsizeButton) {
-            let stylesheet = document.styleSheets[0];
-            let found = false;
-            for (let selector in [...stylesheet.cssRules]) {
-                if (selector.selectorText === `.${this._id}`) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                // Add the rules (the placeholder and the hover); we want a hover effect in this case, so we need to use this mechanism (which I don't like very much)
-                document.styleSheets[0].insertRule(`.${this._id} {}`);
-                document.styleSheets[0].insertRule(`.${this._id}-btn:hover { opacity: 1 !important; }`)
-            }
-
             let fullScreenBtn = document.createElement("div");
             fullScreenBtn.classList.add(`${this._id}-btn`);
             if (this.options.cssClassFullsizeButton !== null) {
@@ -248,6 +233,18 @@ class SimpleLottiePlayer {
                 exitFullScreenBtn.style.display = "none";
                 fullScreenBtn.style.display = "flex";
                 event.stopImmediatePropagation();
+            });
+            fullScreenBtn.addEventListener('mouseover', function(event) {
+                fullScreenBtn.style.opacity = "1";
+            });
+            fullScreenBtn.addEventListener('mouseout', function(event) {
+                fullScreenBtn.style.opacity = "0.5";
+            });
+            exitFullScreenBtn.addEventListener('mouseover', function(event) {
+                exitFullScreenBtn.style.opacity = "1";
+            });
+            exitFullScreenBtn.addEventListener('mouseout', function(event) {
+                exitFullScreenBtn.style.opacity = "0.5";
             });
         }
 
