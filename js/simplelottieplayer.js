@@ -59,6 +59,9 @@ class SimpleLottiePlayer {
             cssClassControlButtons: null,
             // CSS class for buttons
             cssClassFullsizeButton: null,
+            /// Number of times the animation should be repeated (0 means infinite, 1 means play once, 2 means play twice, etc.)
+            //  (*) if loop is set to false, this parameter is ignored
+            repeatCount: 0,
             // Function called whenever the play button is clicked
             onPlayBtn: (player) => {},
             // Function called whenever the pause button is clicked
@@ -377,10 +380,14 @@ class SimpleLottiePlayer {
         }
 
         let animationData = await this._retrieveJSON(pathToAnimation);
+        let loop = this.options.loop === true;
+        if (loop === true && this.options.repeatCount > 0) {
+            loop = this.options.repeatCount - 1;
+        }
         this._lottie = await lottie.loadAnimation({
             container: this._container,
             renderer: 'svg',
-            loop: this.options.loop === true,
+            loop: loop,
             autoplay: this.options.autoplay === true,
             animationData: animationData
         });
@@ -541,11 +548,12 @@ class MemLottiePlayer extends SimpleLottiePlayer {
                     fullsizeButton: false,
                     autosize: true,
                     cssClassControlButtons: null,
-                    cssClassFullsizeButton: null                    
+                    cssClassFullsizeButton: null,
+                    repeatCount: 0
                 }
                 let options = Object.assign(defaultOptions, 
                     getAttributes(player, [ 
-                        "url", "maxWidth:int", "maxHeight:int", "loop:bool", 
+                        "url", "maxWidth:int", "maxHeight:int", "loop:bool", "repeatCount:int",
                         "autoplay:bool", "controlButtons:bool", "fullsizeButton:bool", 
                         "cssClassControlButtons", "cssClassFullsizeButton", "autosize:bool" 
                     ])

@@ -210,6 +210,7 @@ class SimpleLottiePlayer {
             fullsizeButton: false,
             cssClassControlButtons: null,
             cssClassFullsizeButton: null,
+            repeatCount: 0,
             onPlayBtn: player => {},
             onPauseBtn: player => {},
             onPlay: player => {},
@@ -464,10 +465,14 @@ class SimpleLottiePlayer {
             this.options = Object.assign(this.options, options);
         }
         let animationData = await this._retrieveJSON(pathToAnimation);
+        let loop = this.options.loop === true;
+        if (loop === true && this.options.repeatCount > 0) {
+            loop = this.options.repeatCount - 1;
+        }
         this._lottie = await lottie.loadAnimation({
             container: this._container,
             renderer: "svg",
-            loop: this.options.loop === true,
+            loop: loop,
             autoplay: this.options.autoplay === true,
             animationData: animationData
         });
@@ -594,9 +599,10 @@ class MemLottiePlayer extends SimpleLottiePlayer {
                     fullsizeButton: false,
                     autosize: true,
                     cssClassControlButtons: null,
-                    cssClassFullsizeButton: null
+                    cssClassFullsizeButton: null,
+                    repeatCount: 0
                 };
-                let options = Object.assign(defaultOptions, getAttributes(player, [ "url", "maxWidth:int", "maxHeight:int", "loop:bool", "autoplay:bool", "controlButtons:bool", "fullsizeButton:bool", "cssClassControlButtons", "cssClassFullsizeButton", "autosize:bool" ]));
+                let options = Object.assign(defaultOptions, getAttributes(player, [ "url", "maxWidth:int", "maxHeight:int", "loop:bool", "repeatCount:int", "autoplay:bool", "controlButtons:bool", "fullsizeButton:bool", "cssClassControlButtons", "cssClassFullsizeButton", "autosize:bool" ]));
                 new SimpleLottiePlayer(player, options);
             });
         });
