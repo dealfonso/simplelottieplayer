@@ -555,7 +555,6 @@ class MemLottiePlayer extends SimpleLottiePlayer {
                     let parts = attributeName.split(":");
                     attributeName = parts[0];
                     let value = element.getAttribute(camelToSnakeCase(attributeName));
-                    console.log(attributeName);
                     if (value != null) {
                         let type = "string";
                         if (parts.length > 1) {
@@ -578,7 +577,6 @@ class MemLottiePlayer extends SimpleLottiePlayer {
 
                           case "bool":
                             value = [ "", "true", "1", attributeName ].indexOf(value.toLowerCase()) >= 0;
-                            console.log(attributeName, value);
                             break;
                         }
                         result[attributeName] = value;
