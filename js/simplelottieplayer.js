@@ -514,6 +514,7 @@ class MemLottiePlayer extends SimpleLottiePlayer {
 
                     // Get the value and convert the type, if needed
                     let value = element.getAttribute(camelToSnakeCase(attributeName));
+                    console.log(attributeName);
                     if (value != null) {
                         let type = "string"
                         if (parts.length > 1) {
@@ -525,7 +526,9 @@ class MemLottiePlayer extends SimpleLottiePlayer {
                             case "float":
                                 try { value = parseFloat(value); } catch (_) { }; break;
                             case "bool":
-                                value = [ "", "true", "1" ].indexOf(value.toLowerCase()) >= 0; break;
+                                value = [ "", "true", "1", attributeName ].indexOf(value.toLowerCase()) >= 0; 
+                                console.log(attributeName, value);
+                                break;
                         }
                         result[attributeName] = value;
                     } else {
@@ -546,7 +549,7 @@ class MemLottiePlayer extends SimpleLottiePlayer {
                     autoplay: true,
                     controlButtons: false,
                     fullsizeButton: false,
-                    autosize: true,
+                    autosize: false,
                     cssClassControlButtons: null,
                     cssClassFullsizeButton: null,
                     repeatCount: 0

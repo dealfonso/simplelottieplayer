@@ -43,7 +43,7 @@ It is possible to customize many parameters of the _Simple Lottie Player_, but y
     url="https://assets6.lottiefiles.com/packages/lf20_fj8rlma5.json"
     max-width="300"
     max-height="300"
-    autosize="true"
+    autosize="false"
     loop="true"
     repeat-count="0"
     autoplay="true"
@@ -56,7 +56,7 @@ It is possible to customize many parameters of the _Simple Lottie Player_, but y
 The parameters are:
 - `url`: the URL from which to retrieve the animation.
 - `max-width` and `max-height`: when resizing the animation using `resize(...)` function, these values limit the size of the containers, while keeping the aspect ratio for the animation.
-- `autosize`: if set to true the container is resized (observing `max-witdh` and `max-height`) when an animation is loaded.
+- `autosize`: if set to true the container is resized to the size of the animation (observing `max-witdh` and `max-height`), when an animation is loaded.
 - `loop`: if set to true, the animation will play in loop when loaded, for a number of times (see `repeat-count`).
 - `repeat-count`: if set to a number, the animation will play that number of times and then stop (0 means _forever_). This parameter is ignored if `loop` is set to false.
 - `autoplay`: if set to true, the animation will start playing when loaded.
@@ -98,8 +98,8 @@ let defaultOptions = {
     /// Number of times the animation should be repeated (0 means infinite, 1 means play once, 2 means play twice, etc.)
     //  (*) if loop is set to false, this parameter is ignored
     repeatCount: 0,
-    // Automatically resize the container on animation loaded
-    autosize: true,
+    // Automatically resize the container to the size of the animation, on animation loaded
+    autosize: false,
     // Add two overlay divs that act as buttons (play and pause, that work depending on the animation is playing or not)
     controlButtons: false,
     // Add an overlay button that makes the player to display at full size (ignoring the maxWidth and maxHeight parameters)
